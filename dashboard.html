@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard - Restaurant Management</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="min-h-screen bg-gray-50">
+  <div id="nav-container"></div>
+
+  <main class="max-w-7xl mx-auto py-6 sm:px-6 lg:px-8">
+    <div class="px-4 py-6 sm:px-0">
+      <h1 class="text-3xl font-bold text-gray-900 mb-6">Dashboard</h1>
+
+      <div id="loading" class="flex justify-center items-center h-64">
+        <div class="text-lg text-gray-600">Loading...</div>
+      </div>
+
+      <div id="dashboardContent" class="hidden">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8" id="statCards"></div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+          <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">Quick Stats</h2>
+            <div class="space-y-3" id="quickStats"></div>
+          </div>
+
+          <div class="bg-white rounded-lg shadow p-6">
+            <h2 class="text-xl font-semibold mb-4">System Status</h2>
+            <div class="space-y-3" id="systemStatus"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="js/storage.js"></script>
+  <script src="js/utils.js"></script>
+  <script src="js/common.js"></script>
+  <script>
+    // Wait for DOM to be ready
+    document.addEventListener('DOMContentLoaded', function() {
+      if (!checkAuth()) return;
+
+      renderNav();
+
+    function loadDashboard() {
+      const stats = storage.getDashboardStats();
+      
+      const statCards = [
+        { label: 'Total Bookings', value: stats.totalBookings || 0, color: 'bg-blue-500', icon: '📅' },
+        { label: "Today's Bookings", value: stats.todayBookings || 0, color: 'bg-green-500', icon: '📆' },
+        { label: 'Total Orders', value: stats.totalOrders || 0, color: 'bg-purple-500', icon: '📋' },
+        { label: "Today's Orders", value: stats.todayOrders || 0, color: 'bg-yellow-500', icon: '🛒' },
+        { label: 'Total Revenue', value: formatCurrency(stats.totalRevenue), color: 'bg-green-600', icon: '💰' },
+        { label: "Today's Revenue", value: formatCurrency(stats.todayRevenue), color: 'bg-emerald-600', icon: '💵' },
+        { label: 'Available Tables', value: `${stats.availableTables || 0}/${stats.totalTables || 0}`, color: 'bg-indigo-500', icon: '🪑' },
+        { label: 'Pending Orders', value: stats.pendingOrders || 0, color: 'bg-orange-500', icon: '⏳' },
+      ];
+
+      document.getElementById('statCards').innerHTML = statCards.map(stat => `
+        <div class="bg-white rounded-lg shadow p-6">
+          <div class="flex items-center justify-between">
+            <div>
+              <p class="text-sm font-medium text-gray-600">${stat.label}</p>
+              <p class="text-2xl font-bold text-gray-900 mt-2">${stat.value}</p>
+            </div>
+            <div class="${stat.color} rounded-full p-3 text-2xl">
+              ${stat.icon}
+            </div>
+          </div>
+        </div>
+      `).join('');
+
+      document.getElementById('quickStats').innerHTML = `
+        <div class="flex justify-between">
+          <span class="text-gray-600">Total Customers</span>
+          <span class="font-semibold">${stats.totalCustomers || 0}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Menu Items</span>
+          <span class="font-semibold">${stats.totalMenuItems || 0}</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-gray-600">Staff Members</span>
+          <span class="font-semibold">${stats.totalStaff || 0}</span>
+        </div>
+      `;
+
+      document.getElementById('systemStatus').innerHTML = `
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600">System</span>
+          <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
+            Operational
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600">Tables</span>
+          <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-sm font-medium">
+            ${stats.availableTables || 0} Available
+          </span>
+        </div>
+        <div class="flex items-center justify-between">
+          <span class="text-gray-600">Orders</span>
+          <span class="px-3 py-1 bg-orange-100 text-orange-800 rounded-full text-sm font-medium">
+            ${stats.pendingOrders || 0} Pending
+          </span>
+        </div>
+      `;
+
+      document.getElementById('loading').classList.add('hidden');
+      document.getElementById('dashboardContent').classList.remove('hidden');
+    }
+
+      loadDashboard();
+    });
+  </script>
+</body>
+</html>

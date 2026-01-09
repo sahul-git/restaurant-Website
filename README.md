@@ -1,159 +1,115 @@
 # Restaurant Management System
 
-A comprehensive restaurant management website with features for table booking, customer service, menu management, order tracking, staff management, and more.
+A complete restaurant management system built with pure HTML, CSS, and JavaScript. No backend required - all data is stored in the browser's localStorage.
 
 ## Features
 
-- **Dashboard**: Real-time statistics and analytics
-- **Table Booking**: Manage reservations and table availability
-- **Table Management**: View and update table status (available, reserved, occupied)
-- **Menu Management**: Add, edit, and manage menu items by category
-- **Order Management**: Create and track orders with status updates
-- **Customer Management**: Maintain customer database with preferences
-- **Staff Management**: Manage staff members and their roles
-- **Customer Feedback**: Collect and view customer reviews and ratings
-- **Authentication**: Secure login system for staff
+- 📊 **Dashboard** - Overview of bookings, orders, revenue, and system status
+- 📅 **Bookings Management** - Create, edit, and manage table reservations
+- 🪑 **Table Management** - View and update table status (available, reserved, occupied)
+- 🍽️ **Menu Management** - Add, edit, and manage menu items by category
+- 📋 **Order Management** - Create orders, track status, and manage order flow
+- 👥 **Customer Management** - Store and manage customer information
+- 👔 **Staff Management** - Manage staff members and their roles
+- 💬 **Feedback System** - Collect and view customer feedback
+- 🌐 **Public Booking** - Public-facing table booking page
 
-## Tech Stack
+## Getting Started
 
-- **Frontend**: Next.js 14, React, Tailwind CSS
-- **Backend**: Node.js, Express.js
-- **Database**: JSON file-based (easily migratable to MongoDB/PostgreSQL)
-- **Authentication**: JWT tokens
+### Option 1: Simple File Opening
+1. Simply open `index.html` in your web browser
+2. Login with default credentials:
+   - Email: `admin@restaurant.com`
+   - Password: `admin123`
 
-## Installation
+### Option 2: Using a Local Server (Recommended)
+1. Install dependencies (optional):
+   ```bash
+   npm install
+   ```
 
-1. Install dependencies:
-```bash
-npm install
-```
+2. Start a local server:
+   ```bash
+   npm start
+   ```
+   Or use any other static file server like:
+   - Python: `python -m http.server 8080`
+   - PHP: `php -S localhost:8080`
+   - VS Code Live Server extension
 
-2. Start the development servers:
-```bash
-npm run dev
-```
+3. Open your browser and navigate to `http://localhost:8080`
 
-This will start both the backend server (port 5000) and the Next.js frontend (port 3000).
-
-Alternatively, you can run them separately:
-```bash
-# Backend only
-npm run server
-
-# Frontend only
-npm run client
-```
-
-## Default Login Credentials
-
-- **Email**: admin@restaurant.com
-- **Password**: admin123
-
-## Project Structure
+## File Structure
 
 ```
 restaurant-Website/
-├── app/                    # Next.js app directory
-│   ├── components/         # React components
-│   ├── dashboard/          # Dashboard page
-│   ├── bookings/           # Booking management
-│   ├── tables/             # Table management
-│   ├── menu/               # Menu management
-│   ├── orders/             # Order management
-│   ├── customers/          # Customer management
-│   ├── staff/              # Staff management
-│   └── feedback/           # Feedback management
-├── server/                 # Express backend
-│   ├── index.js           # Main server file
-│   └── data/              # Database JSON files (auto-created)
-├── lib/                    # Utility functions
-│   └── api.js             # API client
-└── package.json           # Dependencies
+├── index.html          # Login page
+├── dashboard.html      # Main dashboard
+├── bookings.html       # Booking management
+├── tables.html         # Table management
+├── menu.html           # Menu management
+├── orders.html         # Order management
+├── customers.html      # Customer management
+├── staff.html          # Staff management
+├── feedback.html       # Feedback management
+├── public-booking.html # Public booking page
+├── js/
+│   ├── storage.js      # Data storage (localStorage)
+│   └── utils.js        # Utility functions
+└── package.json        # Project configuration
 ```
 
-## API Endpoints
+## Data Storage
+
+All data is stored in the browser's localStorage. This means:
+- Data persists between sessions
+- Data is specific to each browser/device
+- No server or database required
+- Data can be cleared by clearing browser storage
+
+## Default Data
+
+The system comes with initial data:
+- **User**: admin@restaurant.com / admin123
+- **Tables**: 8 tables with various capacities
+- **Menu**: 5 sample menu items
+- **Staff**: 2 sample staff members
+
+## Features
 
 ### Authentication
-- `POST /api/auth/login` - Login
+- Simple login system (no password hashing for demo purposes)
+- Session management via localStorage
+- Automatic redirect to dashboard after login
 
-### Tables
-- `GET /api/tables` - Get all tables
-- `GET /api/tables/:id` - Get table by ID
-- `PUT /api/tables/:id` - Update table
+### Data Management
+- All CRUD operations (Create, Read, Update, Delete)
+- Real-time updates across pages
+- Automatic ID generation
+- Data validation
 
-### Bookings
-- `GET /api/bookings` - Get all bookings (requires auth)
-- `POST /api/bookings` - Create booking
-- `PUT /api/bookings/:id` - Update booking (requires auth)
-- `DELETE /api/bookings/:id` - Delete booking (requires auth)
+### UI/UX
+- Modern, responsive design using Tailwind CSS
+- Modal dialogs for forms
+- Status indicators with color coding
+- Loading states
+- Error handling
 
-### Menu
-- `GET /api/menu` - Get all menu items
-- `POST /api/menu` - Create menu item (requires auth)
-- `PUT /api/menu/:id` - Update menu item (requires auth)
-- `DELETE /api/menu/:id` - Delete menu item (requires auth)
+## Browser Compatibility
 
-### Orders
-- `GET /api/orders` - Get all orders (requires auth)
-- `POST /api/orders` - Create order (requires auth)
-- `PUT /api/orders/:id` - Update order (requires auth)
-
-### Customers
-- `GET /api/customers` - Get all customers (requires auth)
-- `POST /api/customers` - Create customer (requires auth)
-- `PUT /api/customers/:id` - Update customer (requires auth)
-
-### Staff
-- `GET /api/staff` - Get all staff (requires auth)
-- `POST /api/staff` - Create staff member (requires auth)
-- `PUT /api/staff/:id` - Update staff member (requires auth)
-
-### Feedback
-- `GET /api/feedback` - Get all feedback (requires auth)
-- `POST /api/feedback` - Submit feedback
-
-### Dashboard
-- `GET /api/dashboard/stats` - Get dashboard statistics (requires auth)
-
-## Usage
-
-1. **Login**: Use the default credentials to access the admin panel
-2. **Dashboard**: View real-time statistics and system status
-3. **Manage Tables**: Update table status and view availability
-4. **Handle Bookings**: Create, edit, and manage customer reservations
-5. **Menu Management**: Add and update menu items organized by category
-6. **Process Orders**: Create orders, track status, and manage workflow
-7. **Customer Database**: Maintain customer information and preferences
-8. **Staff Management**: Add and manage staff members
-9. **Feedback**: View customer reviews and ratings
-
-## Environment Variables
-
-Create a `.env.local` file for custom configuration:
-
-```
-API_URL=http://localhost:5000/api
-NEXT_PUBLIC_API_URL=http://localhost:5000/api
-```
-
-## Production Deployment
-
-For production deployment:
-
-1. Update JWT_SECRET in `server/index.js` to a secure random string
-2. Consider migrating to a proper database (MongoDB, PostgreSQL)
-3. Set up environment variables
-4. Build the Next.js app: `npm run build`
-5. Use a process manager like PM2 for the backend server
+Works in all modern browsers that support:
+- ES6 JavaScript
+- localStorage API
+- CSS Grid and Flexbox
 
 ## Notes
 
-- The database is stored in JSON files in `server/data/` directory
-- All data persists between server restarts
-- The system initializes with sample data on first run
-- Authentication tokens are stored in localStorage
+- This is a frontend-only application
+- Data is stored locally in the browser
+- No data synchronization between devices
+- Perfect for demos, prototypes, or single-user scenarios
+- For production use, consider adding a backend API
 
 ## License
 
-MIT
-
+Free to use and modify.
